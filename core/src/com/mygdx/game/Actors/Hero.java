@@ -38,7 +38,7 @@ public class Hero extends BaseActor {
         addActor(particles);
 
 
-        Texture texture = new Texture(Gdx.files.internal("hero\\RunLeft.png"));
+        Texture texture = new Texture(Gdx.files.internal("Hero\\RunLeft.png"));
         TextureRegion[][] temp = TextureRegion.split(texture, frameWidth, frameHeight);
         Array<TextureRegion> textureRegions = new Array<>();
 
@@ -50,7 +50,7 @@ public class Hero extends BaseActor {
         textureRegions.clear();
 
         //анимация бега вправо
-        texture = new Texture(Gdx.files.internal("hero\\Run.png"));
+        texture = new Texture(Gdx.files.internal("Hero\\Run.png"));
         temp = TextureRegion.split(texture, frameWidth, frameHeight);
         for (int f = 0; f < 6; f++) {
             textureRegions.add(temp[0][f]);
@@ -59,7 +59,7 @@ public class Hero extends BaseActor {
         textureRegions.clear();
 
         //анимация стояния влево
-        texture = new Texture(Gdx.files.internal("hero\\IdleLeft.png"));
+        texture = new Texture(Gdx.files.internal("Hero\\IdleLeft.png"));
         temp = TextureRegion.split(texture, frameWidth, frameHeight);
         for (int f = 0; f < 10; f++) {
             textureRegions.add(temp[0][f]);
@@ -68,7 +68,7 @@ public class Hero extends BaseActor {
         textureRegions.clear();
 
         // анимация стояния вправо
-        texture = new Texture(Gdx.files.internal("hero\\Idle.png"));
+        texture = new Texture(Gdx.files.internal("Hero\\Idle.png"));
         temp = TextureRegion.split(texture, frameWidth, frameHeight);
         for (int f = 0; f < 10; f++) {
             textureRegions.add(temp[0][f]);
@@ -77,7 +77,7 @@ public class Hero extends BaseActor {
         textureRegions.clear();
 
         //анимация получения удара
-        texture = new Texture(Gdx.files.internal("hero\\Get Hit.png"));
+        texture = new Texture(Gdx.files.internal("Hero\\Get Hit.png"));
         temp = TextureRegion.split(texture, frameWidth, frameHeight);
         for (int f = 0; f < 3; f++) {
             textureRegions.add(temp[0][f]);
