@@ -1,7 +1,15 @@
 package com.mygdx.game.Screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Button.*;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.mygdx.game.Actors.BaseActor;
 import com.mygdx.game.Actors.Hero;
@@ -12,6 +20,7 @@ import com.mygdx.game.HUD.InfoBar;
 public class MainLevelScreen extends BaseScreen {
     private BaseActor map;
     public static Hero hero;
+    private boolean pause = false;
 
     public MainLevelScreen(BaseGame game) {
         super(game);
@@ -33,10 +42,37 @@ public class MainLevelScreen extends BaseScreen {
         new Skeleton(MathUtils.random(mainStage.getWidth()), MathUtils.random(mainStage.getHeight()), mainStage);
         new Skeleton(MathUtils.random(mainStage.getWidth()), MathUtils.random(mainStage.getHeight()), mainStage);
 
+        //button Style init
+
+        ButtonStyle buttonStyle = new ButtonStyle();
+
+        Texture buttonTexture = new Texture(Gdx.files.internal("HUD\\pauseButton.png"));
+        buttonStyle.up = new TextureRegionDrawable(buttonTexture);
+
+        Button pauseButton = new Button(buttonStyle);
+        pauseButton.setSize(200, 200);
+        //end button style
+
+
+        //pauseButton listener
+        pauseButton.addListener(new EventListener() {
+            @Override
+            public boolean handle(Event e) {
+                if (!(e instanceof InputEvent) || !((InputEvent) e).getType().equals(InputEvent.Type.touchDown))
+                    return false;
+
+                game.pause = !pause;
+                return false;
+
+            }
+        });
+        //end listener
+
 
         tableHUD.pad(5);
         tableHUD.add(new InfoBar(15, 15, uiStage)).align(Align.topLeft);
         tableHUD.add().expandX();
+        tableHUD.add(pauseButton).align(Align.topRight).size(70, 70);
         tableHUD.row().expandY();
         tableHUD.add();
 
@@ -49,6 +85,11 @@ public class MainLevelScreen extends BaseScreen {
             game.setActiveScreen(new GameOver(game));
         }
         hero.setCameraAtActor();
+
+        if(game.pause)
+            if(Gdx.input.isTouched())
+                game.pause = false;
+
     }
 
 }
