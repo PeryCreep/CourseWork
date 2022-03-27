@@ -2,6 +2,7 @@ package com.mygdx.game.Actors;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -19,9 +20,12 @@ public class Hero extends BaseActor {
     private boolean left;
     private final Animation<TextureRegion> runLeft, runRight, idleLeft, idleRight, getHit;
     private final swordAttackParticles particles;
+    private final Sound swing;
 
     public Hero(float x, float y, Stage s) {
         super(x, y, s);
+
+        swing = Gdx.audio.newSound(Gdx.files.internal("Sound\\Effects\\swing1.ogg"));
 
         currentSword = new StandardSword();
         maxHP = 100;
@@ -182,6 +186,8 @@ public class Hero extends BaseActor {
             }
 
             if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+                if(!particles.isVisible())
+                    swing.play();
                 particles.setVisible(true);
                 particles.elapsedTime = 0;
                 if (!particles.animation.isAnimationFinished(particles.elapsedTime)) {
