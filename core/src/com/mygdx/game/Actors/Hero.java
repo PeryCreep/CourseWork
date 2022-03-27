@@ -2,7 +2,6 @@ package com.mygdx.game.Actors;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -18,10 +17,8 @@ public class Hero extends BaseActor {
     private float speed;
     private int agility = 10, strength = 1, intelligence = 10;
     private boolean left;
-    private Animation runLeft, runRight, idleLeft, idleRight, getHit;
-    private final int frameWidth = 135, frameHeight = 135;
-    private float stayFrameDuration, runFrameDuration;
-    private swordAttackParticles particles;
+    private final Animation<TextureRegion> runLeft, runRight, idleLeft, idleRight, getHit;
+    private final swordAttackParticles particles;
 
     public Hero(float x, float y, Stage s) {
         super(x, y, s);
@@ -31,8 +28,10 @@ public class Hero extends BaseActor {
         healthPoint = 100;
         speed = 100;
         left = false;
-        stayFrameDuration = 0.12f;
-        runFrameDuration = 0.11f;
+        float stayFrameDuration = 0.12f;
+        float runFrameDuration = 0.11f;
+        int frameWidth = 135;
+        int frameHeight = 135;
         particles = new swordAttackParticles(0, 0, s, this);
         this.debug();
         this.setOrigin(135 / 2, 135 / 2);
@@ -207,12 +206,8 @@ public class Hero extends BaseActor {
                 setAnimation(idleLeft);
             else
                 setAnimation(idleRight);
-        }//else
-
-
+        }//end else
         updateHitBox(getX() + getWidth() / 2, getY() + getHeight() / 2);
         boundToWorld();
-    }//act
-
-
+    }//end act
 }//end class
