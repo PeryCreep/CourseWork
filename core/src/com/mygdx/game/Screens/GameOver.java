@@ -1,17 +1,20 @@
 package com.mygdx.game.Screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
+import com.mygdx.game.Actors.BaseActor;
 import com.mygdx.game.BaseGame;
 
 public class GameOver extends BaseScreen {
+
     public GameOver(BaseGame game) {
         super(game);
     }
 
     @Override
     public void initialize() {
+        BaseActor gameOver = new BaseActor(0, 0, mainStage);
 
+        gameOver.setTexture("Screens\\gameOver.jpg");
     }
 
     @Override
