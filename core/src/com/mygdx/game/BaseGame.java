@@ -7,6 +7,7 @@ import com.badlogic.gdx.Screen;
 
 public abstract class BaseGame extends Game {
     private BaseGame game;
+    public boolean pause;
 
     public BaseGame(){
         game = this;
