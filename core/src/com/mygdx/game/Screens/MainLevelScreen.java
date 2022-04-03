@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Button.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.mygdx.game.Actors.BaseActor;
@@ -15,11 +16,15 @@ import com.mygdx.game.Actors.Hero;
 import com.mygdx.game.Actors.Skeleton;
 import com.mygdx.game.BaseGame;
 import com.mygdx.game.HUD.InfoBar;
+import com.mygdx.game.MyGdxGame;
 
 public class MainLevelScreen extends BaseScreen {
     private BaseActor map;
     public static Hero hero;
     private boolean pause = false;
+    public static int score;
+
+    private Label scoreLabel;
 
     public MainLevelScreen(BaseGame game) {
         super(game);
@@ -32,6 +37,12 @@ public class MainLevelScreen extends BaseScreen {
         map.setTexture("map.png");
         map.setSize(1792, 1024);
         BaseActor.setWorldBound(map);
+        score = 0;
+        scoreLabel = new Label("" + score, MyGdxGame.labelStyle);
+        scoreLabel.setPosition(160, 615);
+        scoreLabel.setFontScale(4);
+
+        uiStage.addActor(scoreLabel);
 
 
         //создаем героя.
@@ -74,20 +85,20 @@ public class MainLevelScreen extends BaseScreen {
         tableHUD.add(pauseButton).align(Align.topRight).size(70, 70);
         tableHUD.row().expandY();
         tableHUD.add();
-
-
     }
 
     @Override
     public void update() {
-        if(hero.getHealthPoint() <= 0){
+        if (hero.getHealthPoint() <= 0) {
             game.setActiveScreen(new GameOver(game));
         }
         hero.setCameraAtActor();
 
-        if(game.pause)
-            if(Gdx.input.isTouched())
+        if (game.pause)
+            if (Gdx.input.isTouched())
                 game.pause = false;
+
+        scoreLabel.setText("" + score);
 
     }
 

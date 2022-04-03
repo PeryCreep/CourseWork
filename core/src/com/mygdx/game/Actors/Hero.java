@@ -37,7 +37,6 @@ public class Hero extends BaseActor {
         int frameWidth = 135;
         int frameHeight = 135;
         particles = new swordAttackParticles(0, 0, s, this);
-        this.debug();
         this.setOrigin(135 / 2, 135 / 2);
         addActor(particles);
 

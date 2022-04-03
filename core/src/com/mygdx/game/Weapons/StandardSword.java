@@ -4,7 +4,7 @@ public class StandardSword extends Sword{
     private int damage, range;
 
     public StandardSword() {
-        damage = 10;
+        damage = 50;
         range = 20;
     }
 

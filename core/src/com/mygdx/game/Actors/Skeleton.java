@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.InterfaceCreatures.Enemy;
 
 import static com.mygdx.game.Screens.MainLevelScreen.hero;
+import static com.mygdx.game.Screens.MainLevelScreen.score;
 
 public class Skeleton extends BaseActor {
     private Animation<TextureRegion> walk, attack, death;
@@ -21,6 +22,7 @@ public class Skeleton extends BaseActor {
     private float heroX, heroY;
     private float speed = 90, damage = 1;
     private Stage s;
+    private  final int point = 1;
 
 
     public Skeleton(float x, float y, Stage s) {
@@ -33,7 +35,6 @@ public class Skeleton extends BaseActor {
         Hp = 100;
         setOrigin((float) frameWidth / 2, (float) frameHeight / 2);
         setHitBox(50, 56, getOriginX(), getOriginY());
-        debug();
 
         Texture texture = new Texture("Enemy\\Skeleton\\Walk.png");
         TextureRegion[][] textureRegion = TextureRegion.split(texture, frameWidth, frameHeight);
@@ -82,6 +83,7 @@ public class Skeleton extends BaseActor {
             if(!death.isAnimationFinished(elapsedTime)) {
                 setAnimation(death);
             }else {
+                score += point;
                 setAnimation(walk);
                 setPosition(MathUtils.random(s.getWidth()), MathUtils.random(s.getHeight()));
                 setHp(100);
