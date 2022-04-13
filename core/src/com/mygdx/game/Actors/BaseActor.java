@@ -29,6 +29,7 @@ public class BaseActor extends Group {
     public Rectangle hitBox;
 
 
+
     public BaseActor(float x, float y, Stage s) {
         super();
 
@@ -39,7 +40,6 @@ public class BaseActor extends Group {
         animation = null;
         elapsedTime = 0;
         animationPaused = false;
-
     }
 
 

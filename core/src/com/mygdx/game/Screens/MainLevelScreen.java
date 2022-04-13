@@ -93,12 +93,11 @@ public class MainLevelScreen extends BaseScreen {
             game.setActiveScreen(new GameOver(game));
         }
         hero.setCameraAtActor();
+        scoreLabel.setText("" + score);
 
         if (game.pause)
             if (Gdx.input.isTouched())
                 game.pause = false;
-
-        scoreLabel.setText("" + score);
 
     }
 

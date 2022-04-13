@@ -26,7 +26,6 @@ public class swordAttackParticles extends BaseActor {
         for(Object frame : a){
             ((TextureRegion)frame).flip(true, false);
         }
-        debug();
         setVisible(false);
         setHitBox(getWidth(), getHeight(), getOriginX(), getOriginY());
     }

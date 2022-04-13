@@ -22,7 +22,6 @@ public class InfoBar extends BaseActor {
         hp = hero.getHealthPoint();
         texture = new Texture("HUD\\leftTopCorner\\hpBarRed.png");
         setTexture("HUD\\leftTopCorner\\hpBar.png");
-        debug();
     }
 
     @Override
