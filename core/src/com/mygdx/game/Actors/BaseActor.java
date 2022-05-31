@@ -40,7 +40,7 @@ public class BaseActor extends Group {
 
 
     public void setAnimation(Animation<TextureRegion> anim) {
-        animation = anim;// присавем объекту анимацию
+        animation = anim;// присваеваем объекту анимацию
         TextureRegion tr = animation.getKeyFrame(0);//получаем самый первый кадр
         float w = tr.getRegionWidth();//получаем ширину первого кадра
         float h = tr.getRegionHeight();// получаем высоту первого кадра
