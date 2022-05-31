@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Logger;
 import com.mygdx.game.Particles.swordAttackParticles;
 import com.mygdx.game.Weapons.StandardSword;
 import com.mygdx.game.Weapons.Sword;
@@ -150,7 +151,7 @@ public class Hero extends BaseActor {
 
             if (Gdx.input.isKeyPressed(Input.Keys.D)) {
                 left = false;
-                particles.setVisible(false);
+                //particles.setVisible(false);
                 particles.elapsedTime = 0;
                 setX(getX() + (getSpeed() * delta));
                 setAnimation(runRight);
@@ -158,7 +159,7 @@ public class Hero extends BaseActor {
 
             if (Gdx.input.isKeyPressed(Input.Keys.A)) {
                 left = true;
-                particles.setVisible(false);
+                //particles.setVisible(false);
                 particles.elapsedTime = 0;
                 setX(getX() - (getSpeed() * delta));
                 setAnimation(runLeft);
@@ -166,7 +167,7 @@ public class Hero extends BaseActor {
 
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
                 setY(getY() + (getSpeed() * delta));
-                particles.setVisible(false);
+                //particles.setVisible(false);
                 particles.elapsedTime = 0;
                 if (left)
                     setAnimation(runLeft);
@@ -176,7 +177,7 @@ public class Hero extends BaseActor {
 
             if (Gdx.input.isKeyPressed(Input.Keys.S)) {
                 setY(getY() - (getSpeed() * delta));
-                particles.setVisible(false);
+                //particles.setVisible(false);
                 particles.elapsedTime = 0;
                 if (left)
                     setAnimation(runLeft);
@@ -189,6 +190,7 @@ public class Hero extends BaseActor {
                     swing.play();
                 particles.setVisible(true);
                 particles.elapsedTime = 0;
+                Gdx.app.log("elapseTime", String.valueOf(particles.elapsedTime));
                 if (!particles.animation.isAnimationFinished(particles.elapsedTime)) {
                     if(left) {
                         particles.setLeftView(true);
@@ -201,7 +203,8 @@ public class Hero extends BaseActor {
                     }
                 }
             }
-        } else {
+        }
+        else {
             if(particles.animation.isAnimationFinished(particles.elapsedTime)){
                 particles.setVisible(false);
                 particles.updateHitBox(4000, 4000);
