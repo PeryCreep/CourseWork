@@ -107,45 +107,68 @@ public class Hero extends BaseActor {
         this.healthPoint = healthPoint;
     }
 
-    public void setAgility(int agility) {// для увеличения ловкости
-        this.agility = agility;
-    }
-
-    public void setStrength(int strength) {//для увеличения силы
-        this.strength = strength;
-    }
-
-    public void setIntelligence(int intelligence) {// для увеличения интелекта
-        this.intelligence = intelligence;
-    }
-
-    public void setSpeed(float speed) {// для увеличеня скорости игрока
-        this.speed = speed;
-    }
-
-    public void setCurrentSword(Sword currentSword) {// для смены меча
-        this.currentSword = currentSword;
-    }
-
-    public float getSpeed() {//для перемещения
+    public float getSpeed() {
         return speed;
-    }
-
-    public int getAgility() {// пока не придумал
-        return agility;
-    }
-
-    public int getStrength() {// пока не придумал
-        return strength;
-    }
-
-    public int getIntelligence() {// пока не придумал
-        return intelligence;
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
+//        Gdx.app.log("elapsedTime", String.valueOf(particles.elapsedTime));
+        if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
+
+            if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+                particles.setAnimationPaused(false);
+                if(!particles.isVisible())
+                    swing.play();
+                particles.setVisible(true);
+
+                if (left) {
+                    particles.setLeftView(true);
+                    particles.setPosition(getOriginX() - particles.getWidth(), getOriginY() - particles.getHeight() / 2);
+                    particles.updateHitBox((getX() + getOriginX()) - particles.getWidth() / 2, getY() + getOriginY());
+                } else {
+                    particles.setLeftView(false);
+                    particles.setPosition(getOriginX(), getOriginY() - particles.getHeight() / 2);
+                    particles.updateHitBox((getX() + getOriginX()) + particles.getWidth() / 2, getY() + getOriginY());
+                }
+            }
+
+            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                left = false;
+                setX(getX() + (getSpeed() * delta));
+                setAnimation(runRight);
+            }
+
+            if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                left = true;
+                setX(getX() - (getSpeed() * delta));
+                setAnimation(runLeft);
+            }
+
+            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+                setY(getY() + (getSpeed() * delta));
+                if (left)
+                    setAnimation(runLeft);
+                else
+                    setAnimation(runRight);
+            }
+
+            if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+                setY(getY() - (getSpeed() * delta));
+                if (left)
+                    setAnimation(runLeft);
+                else
+                    setAnimation(runRight);
+            }
+        } else {
+            if(left)
+                setAnimation(idleLeft);
+            else
+                setAnimation(idleRight);
+
+        }
+
 
         updateHitBox(getX() + getWidth() / 2, getY() + getHeight() / 2);
         boundToWorld();
