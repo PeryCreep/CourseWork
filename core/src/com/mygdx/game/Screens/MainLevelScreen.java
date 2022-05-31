@@ -116,6 +116,10 @@ public class MainLevelScreen extends BaseScreen {
             case PAUSED: {
                 if(Gdx.input.isKeyPressed(Input.Keys.R))
                     state = States.RUNNING;
+
+                mainStage.draw();
+                uiStage.draw();
+
                 break;
             }
             case STOPPED:{
