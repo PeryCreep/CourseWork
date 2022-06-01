@@ -9,6 +9,10 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -16,7 +20,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import java.util.ArrayList;
 
-public class BaseActor extends Group {
+public class BaseActor extends Group{
 
     public Animation<TextureRegion> animation;// нужно чтобы хранить кадры/кадр анимации
     public float elapsedTime;// нужно для получения анимации
@@ -58,11 +62,36 @@ public class BaseActor extends Group {
         if (!animationPaused) {
             elapsedTime += delta;// автоматически при каждой отрисовки увеличиваем elapsedTime
         }
+
+//        Class ourClass = this.getClass();
+//
+//        for(BaseActor actor: getListActor(getStage(), ourClass.getName())){
+//            if(this.overlaps(actor)) {
+//
+//                if(getX() > actor.getX()) {
+//                    setX(getX() + 2);
+//                    actor.setX(actor.getX() - 2);
+//                }else{
+//                    setX(getX() - 2);
+//                    actor.setX(actor.getX() + 2);
+//                }
+//                }
+//
+//                if(getY() > actor.getY()){
+//                    setY(getY() + 2);
+//                    actor.setY(actor.getY() - 2);
+//                }else{
+//                    setY(getY() - 2);
+//                    actor.setY(actor.getY() + 2);
+//                }
+//            }
+//        }
     }
 
     public boolean isAnimationPaused() {
         return animationPaused;
     }
+
 
     public boolean isAnimFinished() {
         return animation.isAnimationFinished(elapsedTime);

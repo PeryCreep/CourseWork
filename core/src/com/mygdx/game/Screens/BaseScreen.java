@@ -39,17 +39,17 @@ public abstract class BaseScreen implements Screen, InputProcessor {
 
     @Override
     public void render(float delta) {
-            mainStage.act();
-            uiStage.act();
+        mainStage.act();
+        uiStage.act();
 
-            update();
+        update();
 
 
-            Gdx.gl.glClearColor(0, 0, 0, 1);
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-            mainStage.draw();
-            uiStage.draw();
+        mainStage.draw();
+        uiStage.draw();
     }
 
     @Override
