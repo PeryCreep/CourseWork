@@ -16,6 +16,8 @@ import com.mygdx.game.Weapons.Sword;
 public class Hero extends BaseActor {
     private Sword currentSword;
     private float healthPoint, maxHP = 100;
+    private float currentExp = 0, expToNextLvl = 100;
+    private float lvl = 1;
     private float speed;
     private int agility = 10, strength = 1, intelligence = 10;
     private boolean left;
@@ -111,6 +113,18 @@ public class Hero extends BaseActor {
         return speed;
     }
 
+    public void setCurrentExp(float currentExp) {
+        this.currentExp = currentExp;
+    }
+
+    public float getCurrentExp() {
+        return currentExp;
+    }
+
+    public float getExpToNextLvl() {
+        return expToNextLvl;
+    }
+
     @Override
     public void act(float delta) {
         super.act(delta);
@@ -169,6 +183,11 @@ public class Hero extends BaseActor {
 
         }
 
+        if(currentExp >= expToNextLvl){
+            lvl ++;
+            currentExp = 0;
+            expToNextLvl *= 1.2f;
+        }
 
         updateHitBox(getX() + getWidth() / 2, getY() + getHeight() / 2);
         boundToWorld();
