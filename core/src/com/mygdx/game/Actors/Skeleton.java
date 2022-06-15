@@ -4,9 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.InterfaceCreatures.Enemy;
@@ -18,23 +16,23 @@ public class Skeleton extends BaseActor {
     private Animation<TextureRegion> walk, attack, death;
     private final int frameWidth = 150, frameHeight = 150;
     private int Hp;
-    private float walkFrameDuration, attackFrameDuration;
+    private final float walkFrameDuration, attackFrameDuration;
     private float heroX, heroY;
-    private float speed = 90, damage = 1;
+    private float speed = 40, damage = 1, expToGain = 10;
     private Stage s;
-    private  final int point = 1;
+    private final int point = 1;
 
 
     public Skeleton(float x, float y, Stage s) {
         super(x, y, s);
 
         this.s = s;
-
+        debug();
         walkFrameDuration = 0.1f;
         attackFrameDuration = 0.1f;
         Hp = 100;
         setOrigin((float) frameWidth / 2, (float) frameHeight / 2);
-        setHitBox(50, 56, getOriginX(), getOriginY());
+        setHitBox(70, 56, getOriginX(), getOriginY());
 
         Texture texture = new Texture("Enemy\\Skeleton\\Walk.png");
         TextureRegion[][] textureRegion = TextureRegion.split(texture, frameWidth, frameHeight);
@@ -76,14 +74,15 @@ public class Skeleton extends BaseActor {
     public void act(float delta) {
         super.act(delta);
         if (Hp <= 0) {
-            if((animation != death) && elapsedTime != 0){
+            if ((animation != death) && elapsedTime != 0) {
                 elapsedTime = 0;
                 setAnimation(death);
             }
-            if(!death.isAnimationFinished(elapsedTime)) {
+            if (!death.isAnimationFinished(elapsedTime)) {
                 setAnimation(death);
-            }else {
+            } else {
                 score += point;
+                hero.setCurrentExp(hero.getCurrentExp() + expToGain);
                 setAnimation(walk);
                 setPosition(MathUtils.random(s.getWidth()), MathUtils.random(s.getHeight()));
                 setHp(100);
@@ -114,6 +113,8 @@ public class Skeleton extends BaseActor {
                 }
                 setAnimation(walk);
             }
+
+            collisionDetection();
             updateHitBox(getX() + getWidth() / 2, getY() + getHeight() / 2);
         }
     }
@@ -126,5 +127,28 @@ public class Skeleton extends BaseActor {
 
         batch.draw(animation.getKeyFrame(elapsedTime), flip ? getX() + getWidth() : getX(), getY(), flip ? -getWidth() : getWidth(), getHeight());
 
+    }
+
+    public void collisionDetection() {
+        for (BaseActor actor : getListActor(getStage(), "com.mygdx.game.Actors.Skeleton")) {
+            Skeleton anotherSkeleton = (Skeleton) actor;
+
+//                if (getX()> anotherSkeleton.getX()) {
+//                    setX(getX() );
+//                    anotherSkeleton.setX(anotherSkeleton.getX());
+//                } else {
+//                    setX(getX()  );
+//                    anotherSkeleton.setX(anotherSkeleton.getX() );
+//                }
+//
+//                if (getY() > anotherSkeleton.getY()) {
+//                    setY(getY());
+//                    anotherSkeleton.setY(anotherSkeleton.getY() );
+//                } else {
+//                    setY(getY());
+//                    anotherSkeleton.setY(anotherSkeleton.getY());
+//                }
+//           }
+        }
     }
 }

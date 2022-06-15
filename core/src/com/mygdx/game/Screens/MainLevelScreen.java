@@ -1,6 +1,8 @@
 package com.mygdx.game.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Event;
@@ -17,11 +19,11 @@ import com.mygdx.game.Actors.Skeleton;
 import com.mygdx.game.BaseGame;
 import com.mygdx.game.HUD.InfoBar;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.States.States;
 
 public class MainLevelScreen extends BaseScreen {
-    private BaseActor map;
     public static Hero hero;
-    private boolean pause = false;
+    private States state = States.RUNNING;
     public static int score;
 
     private Label scoreLabel;
@@ -71,7 +73,7 @@ public class MainLevelScreen extends BaseScreen {
                 if (!(e instanceof InputEvent) || !((InputEvent) e).getType().equals(InputEvent.Type.touchDown))
                     return false;
 
-                game.pause = !pause;
+                state = States.PAUSED;
                 return false;
 
             }
@@ -95,10 +97,37 @@ public class MainLevelScreen extends BaseScreen {
         hero.setCameraAtActor();
         scoreLabel.setText("" + score);
 
-        if (game.pause)
-            if (Gdx.input.isTouched())
-                game.pause = false;
-
     }
 
+    @Override
+    public void render(float delta) {
+        switch (state) {
+            case RUNNING:{
+                mainStage.act();
+                uiStage.act();
+
+                update();
+
+                Gdx.gl.glClearColor(0, 0, 0, 1);
+                Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+                mainStage.draw();
+                uiStage.draw();
+                break;
+            }
+            case PAUSED: {
+                if(Gdx.input.isKeyPressed(Input.Keys.R))
+                    state = States.RUNNING;
+
+                mainStage.draw();
+                uiStage.draw();
+
+                break;
+            }
+            case STOPPED:{
+                Gdx.app.log("Stop" , "The game was stopped");
+                break;
+            }
+        }
+    }
 }

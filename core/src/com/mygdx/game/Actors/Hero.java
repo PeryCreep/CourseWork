@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Logger;
 import com.mygdx.game.Particles.swordAttackParticles;
 import com.mygdx.game.Weapons.StandardSword;
 import com.mygdx.game.Weapons.Sword;
@@ -15,6 +16,8 @@ import com.mygdx.game.Weapons.Sword;
 public class Hero extends BaseActor {
     private Sword currentSword;
     private float healthPoint, maxHP = 100;
+    private float currentExp = 0, expToNextLvl = 100;
+    private float lvl = 1;
     private float speed;
     private int agility = 10, strength = 1, intelligence = 10;
     private boolean left;
@@ -106,68 +109,59 @@ public class Hero extends BaseActor {
         this.healthPoint = healthPoint;
     }
 
-    public void setAgility(int agility) {// для увеличения ловкости
-        this.agility = agility;
-    }
-
-    public void setStrength(int strength) {//для увеличения силы
-        this.strength = strength;
-    }
-
-    public void setIntelligence(int intelligence) {// для увеличения интелекта
-        this.intelligence = intelligence;
-    }
-
-    public void setSpeed(float speed) {// для увеличеня скорости игрока
-        this.speed = speed;
-    }
-
-    public void setCurrentSword(Sword currentSword) {// для смены меча
-        this.currentSword = currentSword;
-    }
-
-    public float getSpeed() {//для перемещения
+    public float getSpeed() {
         return speed;
     }
 
-    public int getAgility() {// пока не придумал
-        return agility;
+    public void setCurrentExp(float currentExp) {
+        this.currentExp = currentExp;
     }
 
-    public int getStrength() {// пока не придумал
-        return strength;
+    public float getCurrentExp() {
+        return currentExp;
     }
 
-    public int getIntelligence() {// пока не придумал
-        return intelligence;
+    public float getExpToNextLvl() {
+        return expToNextLvl;
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
-
+//        Gdx.app.log("elapsedTime", String.valueOf(particles.elapsedTime));
         if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
+
+            if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+                particles.setAnimationPaused(false);
+                if(!particles.isVisible())
+                    swing.play();
+                particles.setVisible(true);
+
+                if (left) {
+                    particles.setLeftView(true);
+                    particles.setPosition(getOriginX() - particles.getWidth(), getOriginY() - particles.getHeight() / 2);
+                    particles.updateHitBox((getX() + getOriginX()) - particles.getWidth() / 2, getY() + getOriginY());
+                } else {
+                    particles.setLeftView(false);
+                    particles.setPosition(getOriginX(), getOriginY() - particles.getHeight() / 2);
+                    particles.updateHitBox((getX() + getOriginX()) + particles.getWidth() / 2, getY() + getOriginY());
+                }
+            }
 
             if (Gdx.input.isKeyPressed(Input.Keys.D)) {
                 left = false;
-                particles.setVisible(false);
-                particles.elapsedTime = 0;
                 setX(getX() + (getSpeed() * delta));
                 setAnimation(runRight);
             }
 
             if (Gdx.input.isKeyPressed(Input.Keys.A)) {
                 left = true;
-                particles.setVisible(false);
-                particles.elapsedTime = 0;
                 setX(getX() - (getSpeed() * delta));
                 setAnimation(runLeft);
             }
 
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
                 setY(getY() + (getSpeed() * delta));
-                particles.setVisible(false);
-                particles.elapsedTime = 0;
                 if (left)
                     setAnimation(runLeft);
                 else
@@ -176,42 +170,25 @@ public class Hero extends BaseActor {
 
             if (Gdx.input.isKeyPressed(Input.Keys.S)) {
                 setY(getY() - (getSpeed() * delta));
-                particles.setVisible(false);
-                particles.elapsedTime = 0;
                 if (left)
                     setAnimation(runLeft);
                 else
                     setAnimation(runRight);
             }
-
-            if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-                if(!particles.isVisible())
-                    swing.play();
-                particles.setVisible(true);
-                particles.elapsedTime = 0;
-                if (!particles.animation.isAnimationFinished(particles.elapsedTime)) {
-                    if(left) {
-                        particles.setLeftView(true);
-                        particles.setPosition(getOriginX() - particles.getWidth(), getOriginY() - particles.getHeight() / 2);
-                        particles.updateHitBox((getX() + getOriginX()) - particles.getWidth()/2, getY() + getOriginY());
-                    }else{
-                        particles.setLeftView(false);
-                        particles.setPosition(getOriginX(), getOriginY() - particles.getHeight() / 2);
-                        particles.updateHitBox((getX() + getOriginX()) + particles.getWidth()/2, getY() + getOriginY());
-                    }
-                }
-            }
         } else {
-            if(particles.animation.isAnimationFinished(particles.elapsedTime)){
-                particles.setVisible(false);
-                particles.updateHitBox(4000, 4000);
-                particles.elapsedTime = 0;
-            }
-            if (left)
+            if(left)
                 setAnimation(idleLeft);
             else
                 setAnimation(idleRight);
-        }//end else
+
+        }
+
+        if(currentExp >= expToNextLvl){
+            lvl ++;
+            currentExp = 0;
+            expToNextLvl *= 1.2f;
+        }
+
         updateHitBox(getX() + getWidth() / 2, getY() + getHeight() / 2);
         boundToWorld();
     }//end act
